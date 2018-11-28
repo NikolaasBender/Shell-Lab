@@ -1,0 +1,1167 @@
+./sdriver.pl -t trace01.txt -s ./tsh -a "-p"
+#
+# trace01.txt - Properly terminate on EOF.
+#
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace01.txt -s ./tshref -a "-p"
+#
+# trace01.txt - Properly terminate on EOF.
+#
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace02.txt -s ./tsh -a "-p"
+#
+# trace02.txt - Process builtin quit command.
+#
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace02.txt -s ./tshref -a "-p"
+#
+# trace02.txt - Process builtin quit command.
+#
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace03.txt -s ./tsh -a "-p"
+#
+# trace03.txt - Run a foreground job.
+#
+tsh> quit
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace03.txt -s ./tshref -a "-p"
+#
+# trace03.txt - Run a foreground job.
+#
+tsh> quit
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace04.txt -s ./tsh -a "-p"
+#
+# trace04.txt - Run a background job.
+#
+tsh> ./myspin 1 &
+[1] (7410) ./myspin 1 &
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace04.txt -s ./tshref -a "-p"
+#
+# trace04.txt - Run a background job.
+#
+tsh> ./myspin 1 &
+[1] (7417) ./myspin 1 &
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace05.txt -s ./tsh -a "-p"
+#
+# trace05.txt - Process jobs builtin command.
+#
+tsh> ./myspin 2 &
+[1] (7424) ./myspin 2 &
+tsh> ./myspin 3 &
+[2] (7426) ./myspin 3 &
+tsh> jobs
+[1] (7424) Running ./myspin 2 &
+[2] (7426) Running ./myspin 3 &
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace05.txt -s ./tshref -a "-p"
+#
+# trace05.txt - Process jobs builtin command.
+#
+tsh> ./myspin 2 &
+[1] (7434) ./myspin 2 &
+tsh> ./myspin 3 &
+[2] (7436) ./myspin 3 &
+tsh> jobs
+[1] (7434) Running ./myspin 2 &
+[2] (7436) Running ./myspin 3 &
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace06.txt -s ./tsh -a "-p"
+#
+# trace06.txt - Forward SIGINT to foreground job.
+#
+tsh> ./myspin 4
+Job [1] (7444) stopped by signal 20 
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace06.txt -s ./tshref -a "-p"
+#
+# trace06.txt - Forward SIGINT to foreground job.
+#
+tsh> ./myspin 4
+Job [1] (7451) terminated by signal 2
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace07.txt -s ./tsh -a "-p"
+#
+# trace07.txt - Forward SIGINT only to foreground job.
+#
+tsh> ./myspin 4 &
+[1] (7458) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (7460) stopped by signal 20 
+tsh> jobs
+[1] (7458) Running ./myspin 4 &
+[2] (7460) Stopped ./myspin 5 
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace07.txt -s ./tshref -a "-p"
+#
+# trace07.txt - Forward SIGINT only to foreground job.
+#
+tsh> ./myspin 4 &
+[1] (7468) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (7470) terminated by signal 2
+tsh> jobs
+[1] (7468) Running ./myspin 4 &
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace08.txt -s ./tsh -a "-p"
+#
+# trace08.txt - Forward SIGTSTP only to foreground job.
+#
+tsh> ./myspin 4 &
+[1] (7478) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (7480) stopped by signal 20 
+tsh> jobs
+[1] (7478) Running ./myspin 4 &
+[2] (7480) Stopped ./myspin 5 
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace08.txt -s ./tshref -a "-p"
+#
+# trace08.txt - Forward SIGTSTP only to foreground job.
+#
+tsh> ./myspin 4 &
+[1] (7488) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (7490) stopped by signal 20
+tsh> jobs
+[1] (7488) Running ./myspin 4 &
+[2] (7490) Stopped ./myspin 5 
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace09.txt -s ./tsh -a "-p"
+#
+# trace09.txt - Process bg builtin command
+#
+tsh> ./myspin 4 &
+[1] (7498) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (7500) stopped by signal 20 
+tsh> jobs
+[1] (7498) Running ./myspin 4 &
+[2] (7500) Stopped ./myspin 5 
+tsh> bg %2
+[2] (7500) ./myspin 5 
+tsh> jobs
+[1] (7498) Running ./myspin 4 &
+[2] (7500) Running ./myspin 5 
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace09.txt -s ./tshref -a "-p"
+#
+# trace09.txt - Process bg builtin command
+#
+tsh> ./myspin 4 &
+[1] (7511) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (7513) stopped by signal 20
+tsh> jobs
+[1] (7511) Running ./myspin 4 &
+[2] (7513) Stopped ./myspin 5 
+tsh> bg %2
+[2] (7513) ./myspin 5 
+tsh> jobs
+[1] (7511) Running ./myspin 4 &
+[2] (7513) Running ./myspin 5 
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace10.txt -s ./tsh -a "-p"
+#
+# trace10.txt - Process fg builtin command. 
+#
+tsh> ./myspin 4 &
+[1] (7523) ./myspin 4 &
+tsh> fg %1
+Job [1] (7523) stopped by signal 20 
+tsh> jobs
+[1] (7523) Stopped ./myspin 4 &
+tsh> fg %1
+tsh> jobs
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace10.txt -s ./tshref -a "-p"
+#
+# trace10.txt - Process fg builtin command. 
+#
+tsh> ./myspin 4 &
+[1] (7536) ./myspin 4 &
+tsh> fg %1
+Job [1] (7536) stopped by signal 20
+tsh> jobs
+[1] (7536) Stopped ./myspin 4 &
+tsh> fg %1
+tsh> jobs
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace11.txt -s ./tsh -a "-p"
+#
+# trace11.txt - Forward SIGINT to every process in foreground process group
+#
+tsh> ./mysplit 4
+Job [1] (7547) stopped by signal 20 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Sl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:35 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7541 pts/0    S+     0:00 /bin/sh -c make test11
+ 7542 pts/0    S+     0:00 make test11
+ 7543 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace11.txt -s ./tsh -a "-p"
+ 7544 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace11.txt -s ./tsh -a -p
+ 7545 pts/0    S+     0:00 ./tsh -p
+ 7547 pts/0    T      0:00 ./mysplit 4
+ 7548 pts/0    T      0:00 ./mysplit 4
+ 7550 pts/0    R      0:00 /bin/ps a
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace11.txt -s ./tshref -a "-p"
+#
+# trace11.txt - Forward SIGINT to every process in foreground process group
+#
+tsh> ./mysplit 4
+Job [1] (7557) terminated by signal 2
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Sl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:36 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7551 pts/0    S+     0:00 /bin/sh -c make rtest11
+ 7552 pts/0    S+     0:00 make rtest11
+ 7553 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace11.txt -s ./tshref -a "-p"
+ 7554 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace11.txt -s ./tshref -a -p
+ 7555 pts/0    S+     0:00 ./tshref -p
+ 7566 pts/0    R      0:00 /bin/ps a
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace12.txt -s ./tsh -a "-p"
+#
+# trace12.txt - Forward SIGTSTP to every process in foreground process group
+#
+tsh> ./mysplit 4
+Job [1] (7573) stopped by signal 20 
+tsh> jobs
+[1] (7573) Stopped ./mysplit 4 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Sl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:36 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7567 pts/0    S+     0:00 /bin/sh -c make test12
+ 7568 pts/0    S+     0:00 make test12
+ 7569 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace12.txt -s ./tsh -a "-p"
+ 7570 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace12.txt -s ./tsh -a -p
+ 7571 pts/0    S+     0:00 ./tsh -p
+ 7573 pts/0    T      0:00 ./mysplit 4
+ 7574 pts/0    T      0:00 ./mysplit 4
+ 7586 pts/0    R      0:00 /bin/ps a
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace12.txt -s ./tshref -a "-p"
+#
+# trace12.txt - Forward SIGTSTP to every process in foreground process group
+#
+tsh> ./mysplit 4
+Job [1] (7593) stopped by signal 20
+tsh> jobs
+[1] (7593) Stopped ./mysplit 4 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Sl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:36 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7587 pts/0    S+     0:00 /bin/sh -c make rtest12
+ 7588 pts/0    S+     0:00 make rtest12
+ 7589 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace12.txt -s ./tshref -a "-p"
+ 7590 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace12.txt -s ./tshref -a -p
+ 7591 pts/0    S+     0:00 ./tshref -p
+ 7593 pts/0    T      0:00 ./mysplit 4
+ 7594 pts/0    T      0:00 ./mysplit 4
+ 7597 pts/0    R      0:00 /bin/ps a
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace13.txt -s ./tsh -a "-p"
+#
+# trace13.txt - Restart every stopped process in process group
+#
+tsh> ./mysplit 4
+Job [1] (7604) stopped by signal 20 
+tsh> jobs
+[1] (7604) Stopped ./mysplit 4 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Sl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:37 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7598 pts/0    S+     0:00 /bin/sh -c make test13
+ 7599 pts/0    S+     0:00 make test13
+ 7600 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace13.txt -s ./tsh -a "-p"
+ 7601 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace13.txt -s ./tsh -a -p
+ 7602 pts/0    S+     0:00 ./tsh -p
+ 7604 pts/0    T      0:00 ./mysplit 4
+ 7605 pts/0    T      0:00 ./mysplit 4
+ 7608 pts/0    R      0:00 /bin/ps a
+tsh> fg %1
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Sl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:37 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7598 pts/0    S+     0:00 /bin/sh -c make test13
+ 7599 pts/0    S+     0:00 make test13
+ 7600 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace13.txt -s ./tsh -a "-p"
+ 7601 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace13.txt -s ./tsh -a -p
+ 7602 pts/0    S+     0:00 ./tsh -p
+ 7612 pts/0    R      0:00 /bin/ps a
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace13.txt -s ./tshref -a "-p"
+#
+# trace13.txt - Restart every stopped process in process group
+#
+tsh> ./mysplit 4
+Job [1] (7619) stopped by signal 20
+tsh> jobs
+[1] (7619) Stopped ./mysplit 4 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Rl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:10 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:37 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7613 pts/0    S+     0:00 /bin/sh -c make rtest13
+ 7614 pts/0    S+     0:00 make rtest13
+ 7615 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace13.txt -s ./tshref -a "-p"
+ 7616 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace13.txt -s ./tshref -a -p
+ 7617 pts/0    S+     0:00 ./tshref -p
+ 7619 pts/0    T      0:00 ./mysplit 4
+ 7620 pts/0    T      0:00 ./mysplit 4
+ 7623 pts/0    R      0:00 /bin/ps a
+tsh> fg %1
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+ 1264 tty1     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session gnome-session --autostart /usr/share/gdm/greeter/autostart
+ 1276 tty1     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+ 1287 tty1     Sl+    0:02 /usr/bin/gnome-shell
+ 1320 tty1     Sl+    0:00 /usr/bin/Xwayland :1024 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1361 tty1     Sl     0:00 ibus-daemon --xim --panel disable
+ 1364 tty1     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1367 tty1     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1382 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1384 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1386 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1389 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 1391 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1393 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1394 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1398 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1400 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1404 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 1406 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1408 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1411 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1414 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1415 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1419 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1422 tty1     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1442 tty1     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 1781 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu gnome-session --session=ubuntu
+ 1783 tty2     Sl+    0:32 /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 1790 tty2     S+     0:00 /usr/lib/xserver-xorg-video-intel/xf86-video-intel-backlight-helper intel_backlight
+ 1804 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 1933 tty2     Rl+    1:59 /usr/bin/gnome-shell
+ 1972 tty2     Sl     0:01 ibus-daemon --xim --panel disable
+ 1976 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1978 tty2     Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2055 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-power
+ 2056 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 2057 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 2058 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 2059 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 2063 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 2066 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 2070 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 2073 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 2083 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 2085 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-color
+ 2089 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 2090 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 2094 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 2099 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 2102 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 2110 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 2135 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 2168 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-daemon
+ 2172 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 2187 tty2     Sl+    0:00 /usr/bin/python3 /usr/lib/hidpi-daemon/hidpi-notification
+ 2264 tty2     Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2425 tty2     Sl+    0:00 update-notifier
+ 2428 tty2     SLl+   0:06 /usr/bin/gnome-software --gapplication-service
+ 2867 pts/0    Ss     0:00 bash
+ 3120 tty2     Sl+    0:00 /usr/lib/deja-dup/deja-dup-monitor
+ 4500 tty2     SLl+   1:11 /opt/google/chrome/chrome
+ 4506 tty2     S+     0:00 cat
+ 4507 tty2     S+     0:00 cat
+ 4511 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4512 tty2     S+     0:00 /opt/google/chrome/nacl_helper
+ 4515 tty2     S+     0:00 /opt/google/chrome/chrome --type=zygote --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e,
+ 4542 tty2     Sl+    0:17 /opt/google/chrome/chrome --type=gpu-process --field-trial-handle=517607593076965602,16021305394922146058,131072 --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --service-request-channel-token=1473606104633361067
+ 4598 tty2     S+     0:00 /opt/google/chrome/chrome --type=-broker
+ 4668 tty2     Sl+    0:02 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=9650322463144447024 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9650322463144447024 --renderer-client-id=3 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4755 tty2     Sl+    0:05 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=18434873694079382859 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18434873694079382859 --renderer-client-id=4 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4768 tty2     Sl+    0:18 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=10325352122667036691 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10325352122667036691 --renderer-client-id=5 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4773 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=7676152929300681459 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7676152929300681459 --renderer-client-id=6 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4774 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5211868169848402628 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5211868169848402628 --renderer-client-id=7 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4839 tty2     Sl+    0:24 /opt/google/chrome/nacl_helper
+ 7122 tty2     Sl+    0:38 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=2976278505958864739 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=2976278505958864739 --renderer-client-id=38 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7151 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=5961901535049453968 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5961901535049453968 --renderer-client-id=39 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7289 tty2     Sl+    0:00 /opt/google/chrome/chrome --type=renderer --field-trial-handle=517607593076965602,16021305394922146058,131072 --service-pipe-token=17335159417409402803 --lang=en-US --enable-crash-reporter=e4102699-94e3-4b85-8698-b3f59094801e, --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17335159417409402803 --renderer-client-id=40 --no-v8-untrusted-code-mitigations --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 7303 tty2     Sl+    0:00 /usr/bin/python3 /usr/bin/chrome-gnome-shell chrome-extension://gphhapmejobijbbhgpjhcjognlahblep/
+ 7371 pts/0    S+     0:00 python3 AutoGrader.py
+ 7613 pts/0    S+     0:00 /bin/sh -c make rtest13
+ 7614 pts/0    S+     0:00 make rtest13
+ 7615 pts/0    S+     0:00 /bin/sh -c ./sdriver.pl -t trace13.txt -s ./tshref -a "-p"
+ 7616 pts/0    S+     0:00 /usr/bin/perl ./sdriver.pl -t trace13.txt -s ./tshref -a -p
+ 7617 pts/0    S+     0:00 ./tshref -p
+ 7626 pts/0    R      0:00 /bin/ps a
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace14.txt -s ./tsh -a "-p"
+#
+# trace14.txt - Simple error handling
+#
+tsh> ./bogus
+./bogus: Command not found. 
+tsh> ./myspin 4 &
+[1] (7635) ./myspin 4 &
+tsh> fg
+fg command requires PID or %jobid argument
+tsh> bg
+bg command requires PID or %jobid argument
+tsh> fg a
+fg: argument must be a PID or %jobid
+tsh> bg a
+bg: argument must be a PID or %jobid
+tsh> fg 9999999
+(9999999): No such process
+tsh> bg 9999999
+(9999999): No such process
+tsh> fg %2
+%2: No such job
+tsh> fg %1
+Job [1] (7635) stopped by signal 20 
+tsh> bg %2
+%2: No such job
+tsh> bg %1
+[1] (7635) ./myspin 4 &
+tsh> jobs
+[1] (7635) Running ./myspin 4 &
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace14.txt -s ./tshref -a "-p"
+#
+# trace14.txt - Simple error handling
+#
+tsh> ./bogus
+./bogus: Command not found
+tsh> ./myspin 4 &
+[1] (7656) ./myspin 4 &
+tsh> fg
+fg command requires PID or %jobid argument
+tsh> bg
+bg command requires PID or %jobid argument
+tsh> fg a
+fg: argument must be a PID or %jobid
+tsh> bg a
+bg: argument must be a PID or %jobid
+tsh> fg 9999999
+(9999999): No such process
+tsh> bg 9999999
+(9999999): No such process
+tsh> fg %2
+%2: No such job
+tsh> fg %1
+Job [1] (7656) stopped by signal 20
+tsh> bg %2
+%2: No such job
+tsh> bg %1
+[1] (7656) ./myspin 4 &
+tsh> jobs
+[1] (7656) Running ./myspin 4 &
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace15.txt -s ./tsh -a "-p"
+#
+# trace15.txt - Putting it all together
+#
+tsh> ./bogus
+./bogus: Command not found. 
+tsh> ./myspin 10
+Job [1] (7676) stopped by signal 20 
+tsh> ./myspin 3 &
+[2] (7678) ./myspin 3 &
+tsh> ./myspin 4 &
+[3] (7680) ./myspin 4 &
+tsh> jobs
+[1] (7676) Stopped ./myspin 10
+[2] (7678) Running ./myspin 3 &
+[3] (7680) Running ./myspin 4 &
+tsh> fg %1
+Job [1] (7676) stopped by signal 20 
+tsh> jobs
+[1] (7676) Stopped ./myspin 10
+[2] (7678) Running ./myspin 3 &
+[3] (7680) Running ./myspin 4 &
+tsh> bg %3
+[3] (7680) ./myspin 4 &
+tsh> bg %1
+[1] (7676) ./myspin 10
+tsh> jobs
+[1] (7676) Running ./myspin 10
+[2] (7678) Running ./myspin 3 &
+[3] (7680) Running ./myspin 4 &
+tsh> fg %1
+tsh> quit
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace15.txt -s ./tshref -a "-p"
+#
+# trace15.txt - Putting it all together
+#
+tsh> ./bogus
+./bogus: Command not found
+tsh> ./myspin 10
+Job [1] (7698) terminated by signal 2
+tsh> ./myspin 3 &
+[1] (7700) ./myspin 3 &
+tsh> ./myspin 4 &
+[2] (7702) ./myspin 4 &
+tsh> jobs
+[1] (7700) Running ./myspin 3 &
+[2] (7702) Running ./myspin 4 &
+tsh> fg %1
+Job [1] (7700) stopped by signal 20
+tsh> jobs
+[1] (7700) Stopped ./myspin 3 &
+[2] (7702) Running ./myspin 4 &
+tsh> bg %3
+%3: No such job
+tsh> bg %1
+[1] (7700) ./myspin 3 &
+tsh> jobs
+[1] (7700) Running ./myspin 3 &
+[2] (7702) Running ./myspin 4 &
+tsh> fg %1
+tsh> quit
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace16.txt -s ./tsh -a "-p"
+#
+# trace16.txt - Tests whether the shell can handle SIGTSTP and SIGINT
+#     signals that come from other processes instead of the terminal.
+#
+tsh> ./mystop 2
+Job [1] (7717) stopped by signal 20 
+tsh> jobs
+[1] (7717) Stopped ./mystop 2
+tsh> ./myint 2
+Job [2] (7720) terminated by signal 2 
+EOF CLOSING
+
+ =============================================================================================================================== 
+./sdriver.pl -t trace16.txt -s ./tshref -a "-p"
+#
+# trace16.txt - Tests whether the shell can handle SIGTSTP and SIGINT
+#     signals that come from other processes instead of the terminal.
+#
+tsh> ./mystop 2
+Job [1] (7727) stopped by signal 20
+tsh> jobs
+[1] (7727) Stopped ./mystop 2
+tsh> ./myint 2
+Job [2] (7730) terminated by signal 2
+
+ =============================================================================================================================== 
+
+ =============================================================================================================================== 
